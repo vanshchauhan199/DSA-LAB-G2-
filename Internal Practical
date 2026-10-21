@@ -1,0 +1,84 @@
+
+#include <stdio.h>
+#define SIZE 10
+
+int hashTable[SIZE];
+
+// Hash function
+int hash(int key) {
+    return key % SIZE;
+}
+
+// Insert an element
+void insert(int key) {
+    int index = hash(key);
+    int start = index;
+
+    while (hashTable[index] != -1) {
+        index = (index + 1) % SIZE;
+
+        if (index == start) {
+            printf("Hash table is full!\n");
+            return;
+        }
+    }
+
+    hashTable[index] = key;
+    printf("%d inserted successfully.\n", key);
+}
+
+// Search an element
+void search(int key) {
+    int index = hash(key);
+    int start = index;
+
+    while (hashTable[index] != -1) {
+        if (hashTable[index] == key) {
+            printf("%d found at index %d\n", key, index);
+            return;
+        }
+
+        index = (index + 1) % SIZE;
+
+        if (index == start)
+            break;
+    }
+
+    printf("%d not found.\n", key);
+}
+
+int main() {
+    int i, choice, key;
+
+    // Initialize hash table
+    for (i = 0; i < SIZE; i++)
+        hashTable[i] = -1;
+
+    while (1) {
+        printf("\n1. Insert\n2. Search\n3. Exit\n");
+        printf("Enter your choice: ");
+        scanf("%d", &choice);
+
+        switch (choice) {
+            case 1:
+                printf("Enter key to insert: ");
+                scanf("%d", &key);
+                insert(key);
+                break;
+
+            case 2:
+                printf("Enter key to search: ");
+                scanf("%d", &key);
+                search(key);
+                break;
+
+            case 3:
+                return 0;
+
+            default:
+                printf("Invalid choice!\n");
+        }
+    }
+
+    return 0;
+}
